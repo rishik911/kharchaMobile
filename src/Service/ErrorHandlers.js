@@ -9,6 +9,7 @@ export const handleError = (title, msg) => {
   } else {
     erroMessage = msg?.message;
   }
+
   Toast.show({
     type: 'error',
     text1: title,

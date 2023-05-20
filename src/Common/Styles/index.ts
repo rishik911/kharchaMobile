@@ -43,6 +43,31 @@ const getCommonStyles = () => {
       fontStyle: 'normal',
       fontWeight: '500',
     },
+    headerView: {
+      height: 70,
+      borderBottomWidth: 0.5,
+      borderBottomColor: LIGHT_COLORS.background,
+      shadowColor: LIGHT_COLORS.border,
+      shadowOpacity: 1,
+      shadowRadius: 5,
+      elevation: 24,
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      flexDirection: 'row',
+    },
+    listItemCard: {
+      backgroundColor: LIGHT_COLORS.listItemBg,
+    },
+    listCardText: {
+      color: LIGHT_COLORS.listItemTextColor,
+      fontWeight: '600',
+    },
+    erroButtonStyles: {
+      backgroundColor: DARK_COLORS.errorButton,
+      paddingHorizontal: 24,
+      paddingVertical: 12,
+      borderRadius: 12,
+    },
   });
 
   const DarkMode = StyleSheet.create({
@@ -59,6 +84,12 @@ const getCommonStyles = () => {
     },
     ctaButtonStyles: {
       backgroundColor: DARK_COLORS.ctaButton,
+      paddingHorizontal: 24,
+      paddingVertical: 12,
+      borderRadius: 12,
+    },
+    erroButtonStyles: {
+      backgroundColor: DARK_COLORS.errorButton,
       paddingHorizontal: 24,
       paddingVertical: 12,
       borderRadius: 12,
@@ -81,6 +112,18 @@ const getCommonStyles = () => {
       fontSize: 24,
       fontStyle: 'normal',
       fontWeight: '500',
+    },
+    headerView: {
+      height: 70,
+      borderBottomWidth: 1,
+      borderBottomColor: LIGHT_COLORS.border,
+    },
+    listItemCard: {
+      backgroundColor: LIGHT_COLORS.listItemBg,
+    },
+    listCardText: {
+      color: LIGHT_COLORS.listItemTextColor,
+      fontWeight: '600',
     },
   });
 

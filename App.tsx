@@ -6,6 +6,8 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
 import Toast, {ErrorToast} from 'react-native-toast-message';
 import {LIGHT_COLORS} from './src/Common/Styles/Colors';
+import 'react-native-gesture-handler';
+
 
 const toastConfig = {
   error: (props: any) => (

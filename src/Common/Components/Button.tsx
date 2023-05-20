@@ -1,12 +1,19 @@
 import React, {useMemo} from 'react';
-import {Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import getCommonStyles from '../Styles';
 
 interface ButtonProps {
   title: string;
   onButtonPress: any;
-  buttonType?: 'cta' | 'primary' | 'secondary' | 'text';
+  buttonType?: 'cta' | 'primary' | 'secondary' | 'text' | 'close';
   isDisabled?: boolean;
+  showLoader?: boolean;
 }
 
 const CommonButton: React.FC<ButtonProps> = ({
@@ -14,15 +21,19 @@ const CommonButton: React.FC<ButtonProps> = ({
   onButtonPress,
   buttonType = 'cta',
   isDisabled = false,
+  showLoader = false,
 }) => {
-  const {ctaButtonStyles, ctaText, textButtonText} = getCommonStyles();
+  const {ctaButtonStyles, erroButtonStyles, ctaText, textButtonText} =
+    getCommonStyles();
 
   const getStyle = useMemo(() => {
     if (buttonType === 'cta') return ctaButtonStyles;
+    if (buttonType === 'close') return erroButtonStyles;
   }, [buttonType]);
 
   const getTextStyle = useMemo(() => {
     if (buttonType === 'cta') return ctaText;
+    if (buttonType === 'close') return ctaText;
     if (buttonType === 'text') return textButtonText;
   }, [buttonType]);
 
@@ -31,7 +42,11 @@ const CommonButton: React.FC<ButtonProps> = ({
       disabled={isDisabled}
       style={[getStyle]}
       onPress={onButtonPress}>
-      <Text style={[getTextStyle]}>{title}</Text>
+      {showLoader ? (
+        <ActivityIndicator />
+      ) : (
+        <Text style={[getTextStyle]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

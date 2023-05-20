@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {BASE_URL, DEFAULT_HEADERS} from '../Utils/Constants';
-import reactotron from 'reactotron-react-native';
 
 export const makePostCall = async (
   endpoint: string,

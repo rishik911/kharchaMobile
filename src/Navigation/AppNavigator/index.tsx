@@ -1,17 +1,20 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import * as React from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import ProfileIndex from '../../Modules/Profile/Views';
+import ExpenseStack from './ExpenseNavigator';
 
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-function AppNavigator() {
+export default function AppNavigator() {
   return (
-    <Tab.Navigator
+    <Drawer.Navigator
+      initialRouteName="Expenses"
       screenOptions={{
+        headerShadowVisible: true,
         headerShown: false,
       }}>
-      <Tab.Screen name="ProfileIndex" component={ProfileIndex} />
-    </Tab.Navigator>
+      <Drawer.Screen name="Expenses" component={ExpenseStack} />
+      <Drawer.Screen name="Profile" component={ProfileIndex} />
+    </Drawer.Navigator>
   );
 }
-
-export default AppNavigator;

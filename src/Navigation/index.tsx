@@ -1,6 +1,4 @@
 import React from 'react';
-import {Text} from 'react-native';
-import store from '../Redux/store';
 import {useSelector} from 'react-redux';
 import AppNavigator from './AppNavigator';
 import AuthRootStack from './RootStack';
@@ -8,9 +6,9 @@ import AuthRootStack from './RootStack';
 const NavWrapper = () => {
   const AuthState = useSelector(state => state.authState);
 
-  console.log(AuthState);
-
   const {accessToken} = AuthState;
+
+  console.log(accessToken);
 
   if (accessToken) {
     return <AppNavigator />;
