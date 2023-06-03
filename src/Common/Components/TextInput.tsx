@@ -18,6 +18,7 @@ interface TextInputProps {
   errorText?: string;
   container?: any;
   inputStyle?: any;
+  isEditable?: boolean;
 }
 
 const CommonTextInput: React.FC<TextInputProps> = ({
@@ -30,6 +31,7 @@ const CommonTextInput: React.FC<TextInputProps> = ({
   errorText = '',
   container = null,
   inputStyle = null,
+  isEditable = true,
 }) => {
   const {borderColor} = getCommonStyles();
   return (
@@ -45,6 +47,7 @@ const CommonTextInput: React.FC<TextInputProps> = ({
         placeholder={placeholder}
         secureTextEntry={secured}
         keyboardType={keyboard}
+        editable={isEditable}
       />
       {error && <Text style={styles.errorText}>{errorText}</Text>}
     </View>

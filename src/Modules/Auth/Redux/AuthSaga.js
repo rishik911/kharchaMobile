@@ -11,7 +11,10 @@ function* initiateSignupSaga(action) {
     const params = {
       email: action.email,
       password: action.password,
+      firstName: action.firstName,
+      lastName: action.lastName,
     };
+
     const response = yield call(makePostCall, ENDPOINTS.SIGN_UP, params);
 
     if (response?.data?.status === 200) {
@@ -19,6 +22,7 @@ function* initiateSignupSaga(action) {
         type: AUTH_ACTION_TYPES.INITATE_LOGIN,
         email: action.email,
         password: action.password,
+        completeLoad: () => {},
       });
       action.completeLoad(true);
     }
@@ -49,7 +53,7 @@ function* initiateLoginSaga(action) {
       action?.completeLoad(true);
     }
   } catch (e) {
-    action.completeLoad(true);
+    action?.completeLoad(true);
     handleError(ERROR_MESSAGES.SOMETHING_WRONG, e?.response?.data);
   }
 }

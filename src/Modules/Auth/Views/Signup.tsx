@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import {SignUpTypes} from '../../types';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView} from 'react-native';
 import getCommonStyles from '../../../Common/Styles';
 import {SignUpStyles} from '../Styles.ts/SignUpStyles';
 import CommonTextInput from '../../../Common/Components/TextInput';
@@ -23,6 +23,10 @@ const Signup: React.FC<SignUpTypes> = (props, {}) => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [fNameError, setFnameError] = useState(false);
+  const [lastName, setLastName] = useState('');
+  const [lNameError, setLNameError] = useState(false);
 
   const {navigation} = props;
 
@@ -44,15 +48,35 @@ const Signup: React.FC<SignUpTypes> = (props, {}) => {
     setPassword(text);
   };
 
+  const handleFirstNameChange = (e: any) => {
+    if (fNameError) setFnameError(false);
+    const {nativeEvent: text} = e || '';
+    setFirstName(text);
+  };
+
+  const handleLastNameChange = (e: any) => {
+    if (lNameError) setLNameError(false);
+    const {nativeEvent: text} = e || '';
+    setLastName(text);
+  };
+
   const handleSignUpPress = () => {
     if (!EMAIL_REGEX.test(email?.text)) setEmailError(true);
     if (!PASSWORD_REGEX.test(password?.text)) setPasswordError(true);
+    if (firstName === '' || !firstName) setFnameError(true);
+    if (lastName === '' || !firstName) setLNameError(true);
     else {
       setLoading(true);
       dispatch(
-        initiateSignUpAction(email?.text, password?.text, function (state) {
-          setLoading(false);
-        }),
+        initiateSignUpAction(
+          email?.text,
+          password?.text,
+          firstName?.text,
+          lastName?.text,
+          function (state) {
+            setLoading(false);
+          },
+        ),
       );
     }
   };
@@ -62,7 +86,9 @@ const Signup: React.FC<SignUpTypes> = (props, {}) => {
     if (passwordError) return true;
   }, [emailError, passwordError]);
   return (
-    <View style={[containerBackground, SignUpStyles.container]}>
+    <KeyboardAvoidingView
+      behavior="height"
+      style={[containerBackground, SignUpStyles.container]}>
       <Text style={[haedingText, SignUpStyles.topText]}>
         {STRINGS.CREATE_ACCOUNT}
       </Text>
@@ -81,6 +107,23 @@ const Signup: React.FC<SignUpTypes> = (props, {}) => {
         secured={true}
         errorText={STRINGS.PASSWORD_FORMAT_ERROR}
       />
+      <CommonTextInput
+        inputValue={firstName}
+        placeholder="Enter your first name.."
+        onChangeText={handleFirstNameChange}
+        error={fNameError}
+        secured={false}
+        errorText={STRINGS.NAME_ERROR}
+      />
+      <CommonTextInput
+        inputValue={lastName}
+        placeholder="Enter your last name.."
+        onChangeText={handleLastNameChange}
+        error={lNameError}
+        secured={false}
+        errorText={STRINGS.PASSWORD_FORMAT_ERROR}
+      />
+
       <View style={SignUpStyles.buttonContainer}>
         <CommonButton
           title="Sign Up"
@@ -97,7 +140,7 @@ const Signup: React.FC<SignUpTypes> = (props, {}) => {
         />
       </View>
       {loading && <Loader play={loading} />}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -7,6 +7,7 @@ export const STRINGS = {
   LOGIN_ACCOUNT: 'Login to use Kharcha',
   LOGIN: 'Already have an account?',
   SIGN_UP: `Don't have an account?`,
+  NAME_ERROR: 'Enter valid input',
 };
 
 export const ERROR_MESSAGES = {

@@ -8,8 +8,6 @@ const NavWrapper = () => {
 
   const {accessToken} = AuthState;
 
-  console.log(accessToken);
-
   if (accessToken) {
     return <AppNavigator />;
   } else return <AuthRootStack />;

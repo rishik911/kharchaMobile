@@ -3,7 +3,7 @@ import {STATUS_CODE} from '../Utils/Constants';
 import {store} from '../Redux/store';
 import {initiateLogoutAction} from '../Modules/Auth/Redux/AuthActions';
 
-export const handleError = (title, msg, status) => {
+export const handleError = (title, msg, status = 200) => {
   let erroMessage = '';
   if (!msg?.message) {
     if (msg?.body && Array.isArray(msg?.body)) {

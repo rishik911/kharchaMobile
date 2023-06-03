@@ -9,12 +9,16 @@ export const initiateLogoutAction = () => {
 export const initiateSignUpAction = (
   email: string,
   password: string,
+  firstName: string,
+  lastName: string,
   completeLoad: any,
 ) => {
   return {
     type: AUTH_ACTION_TYPES.INTIATE_SIGNUP,
     email,
     password,
+    firstName,
+    lastName,
     completeLoad,
   };
 };

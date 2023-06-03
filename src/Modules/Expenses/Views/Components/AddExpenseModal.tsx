@@ -6,7 +6,7 @@ import {modalStyles} from '../../styles/ModalStyles';
 import {View, Text} from 'react-native';
 import CommonButton from '../../../../Common/Components/Button';
 import CommonTextInput from '../../../../Common/Components/TextInput';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addNewExpenseAction} from '../../Redux/ExpenseActions';
 import {expenseStyles} from '../../styles/ExpenseStyles';
 import Loader from '../../../../Common/Components/Loader';
@@ -25,6 +25,8 @@ const AddExpenseModal: React.FC<AddExpenseModalTypes> = ({
 
   const dispatch = useDispatch();
 
+  const {profileData} = useSelector(state => state.authState);
+
   const handleExpenseChange = (e: any) => {
     const {nativeEvent: text} = e || '';
     setExpenseType(text?.text);
@@ -40,11 +42,13 @@ const AddExpenseModal: React.FC<AddExpenseModalTypes> = ({
     [amount, expenseType],
   );
 
+  console.log(profileData)
+
   const submitForm = () => {
     const expense = {
       expenseType: expenseType,
       amount: parseFloat(amount),
-      spendBy: 'rishik',
+      spendBy: profileData?.firstName,
       spendOn: new Date(),
     };
     if (yearId && monthName) {

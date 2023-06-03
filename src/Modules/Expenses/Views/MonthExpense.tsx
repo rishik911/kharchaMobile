@@ -84,10 +84,12 @@ const MonthExpense: React.FC<MonthExpenseTypes> = (props, {}) => {
     return arr;
   }, [monthExpense]);
 
+  console.log(monthExpense)
+
   const renderListHeader = () => {
     return (
       <View style={expenseStyles?.headerContainer}>
-        {renderAmountRender('Total', 123, true)}
+        {renderAmountRender('Total', monthExpense?.total, true)}
         <View style={expenseStyles?.horizontalLine} />
         {renderAmountRender('Member name', 'Amount')}
 
@@ -97,10 +99,6 @@ const MonthExpense: React.FC<MonthExpenseTypes> = (props, {}) => {
         )}
       </View>
     );
-  };
-
-  const handleRefresh = () => {
-    setRefresh(true);
   };
 
   return (
