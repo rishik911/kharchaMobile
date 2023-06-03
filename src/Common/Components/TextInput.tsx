@@ -16,6 +16,8 @@ interface TextInputProps {
   error?: boolean;
   secured?: boolean;
   errorText?: string;
+  container?: any;
+  inputStyle?: any;
 }
 
 const CommonTextInput: React.FC<TextInputProps> = ({
@@ -26,12 +28,18 @@ const CommonTextInput: React.FC<TextInputProps> = ({
   error = false,
   secured = false,
   errorText = '',
+  container = null,
+  inputStyle = null,
 }) => {
   const {borderColor} = getCommonStyles();
   return (
-    <View style={styles.container}>
+    <View style={container ? container : styles.container}>
       <TextInput
-        style={[borderColor, styles.input, error && styles.error]}
+        style={[
+          borderColor,
+          inputStyle ? inputStyle : styles.input,
+          error && styles.error,
+        ]}
         value={inputValue}
         onChange={onChangeText}
         placeholder={placeholder}
@@ -56,7 +64,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    padding : 4
+    padding: 4,
   },
 });
 

@@ -22,6 +22,7 @@ export const ENDPOINTS = {
   PROFILE: '/v1/auth/profile',
   EXPENSES: '/v1/expense/',
   NEW_YEAR: '/v1/expense/year',
+  NEW_EXPENSE: '/v1/expense/createExpense',
   NEW_MONTH: '/v1/expense/month',
 };
 
@@ -36,4 +37,8 @@ export const triggerSuccessToast = (message: string) => {
     text1: message,
     position: 'top',
   });
+};
+
+export const STATUS_CODE = {
+  EXPIRED: 405,
 };

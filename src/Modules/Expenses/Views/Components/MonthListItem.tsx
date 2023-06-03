@@ -11,7 +11,7 @@ const MonthListItem: React.FC<MonthListItemTypes> = ({
   id,
   handleOnMonthPress,
 }) => {
-  const {listItemCard, listCardText} = getCommonStyles();
+  const {textColor, listCardText} = getCommonStyles();
 
   const handleOnPress = () => {
     handleOnMonthPress(monthName);
@@ -20,14 +20,14 @@ const MonthListItem: React.FC<MonthListItemTypes> = ({
   return (
     <TouchableOpacity
       onPress={handleOnPress}
-      style={[listItemCard, expenseStyles?.monthCard]}>
+      style={[expenseStyles?.monthCard]}>
       <View>
-        <Text style={[listCardText, expenseStyles?.monthName]}>
+        <Text style={[textColor, expenseStyles?.monthName]}>
           {monthName?.toUpperCase()}
         </Text>
         <View style={expenseStyles?.rowRender}>
-          <Icon name="inr" {...listCardText} size={18} />
-          <Text style={[listCardText, expenseStyles?.total]}>{totalSpent}</Text>
+          <Icon name="inr" {...textColor} size={18} />
+          <Text style={[textColor, expenseStyles?.total]}>{totalSpent}</Text>
         </View>
       </View>
       <View></View>

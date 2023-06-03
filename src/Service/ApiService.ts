@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {BASE_URL, DEFAULT_HEADERS} from '../Utils/Constants';
+import reactotron from 'reactotron-react-native';
 
 export const makePostCall = async (
   endpoint: string,
@@ -9,7 +10,6 @@ export const makePostCall = async (
   const response = await axios.post(`${BASE_URL}${endpoint}`, params, {
     headers: reqHeaders,
   });
-
   return response;
 };
 
@@ -20,6 +20,5 @@ export const makeGetCall = async (
   const response = await axios.get(`${BASE_URL}${endpoint}`, {
     headers: reqHeaders,
   });
-
   return response;
 };

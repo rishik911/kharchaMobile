@@ -23,7 +23,11 @@ function* getExpensesData(action) {
       });
     }
   } catch (e) {
-    handleError(ERROR_MESSAGES.SOMETHING_WRONG, e?.response?.data);
+    handleError(
+      ERROR_MESSAGES.SOMETHING_WRONG,
+      e?.response?.data,
+      e?.response?.status,
+    );
   }
 }
 
@@ -46,7 +50,11 @@ function* getMonthExpense(action) {
     }
   } catch (e) {
     action.completeLoad(true);
-    handleError(ERROR_MESSAGES.SOMETHING_WRONG, e?.response?.data);
+    handleError(
+      ERROR_MESSAGES.SOMETHING_WRONG,
+      e?.response?.data,
+      e?.response?.status,
+    );
   }
 }
 
@@ -75,7 +83,11 @@ function* postNewYearSaga(action) {
     }
   } catch (e) {
     action.completeLoad(false);
-    handleError(ERROR_MESSAGES.SOMETHING_WRONG, e?.response?.data);
+    handleError(
+      ERROR_MESSAGES.SOMETHING_WRONG,
+      e?.response?.data,
+      e?.response?.status,
+    );
   }
 }
 
@@ -106,7 +118,49 @@ function* postNewMonthSaga(action) {
     }
   } catch (e) {
     action.completeLoad(false);
-    handleError(ERROR_MESSAGES.SOMETHING_WRONG, e?.response?.data);
+    handleError(
+      ERROR_MESSAGES.SOMETHING_WRONG,
+      e?.response?.data,
+      e?.response?.status,
+    );
+  }
+}
+
+function* postNewExpenseSaga(action) {
+  try {
+    const headers = {...DEFAULT_HEADERS};
+    headers.authorization = `Bearer ${action.accessToken}`;
+    const body = {
+      year: action?.year,
+      month: action?.monthName,
+      expense: action.expense,
+    };
+    const response = yield call(
+      makePostCall,
+      `${ENDPOINTS.NEW_EXPENSE}`,
+      body,
+      headers,
+    );
+
+    if (response?.data?.status === 200) {
+      const payload = response?.data?.body;
+      action.completeLoad(true);
+      triggerSuccessToast('New expense has been added!');
+      yield put({
+        type: EXPENSE_TYPES.GET_MONTH_EXPENSE,
+        accessToken: action.accessToken,
+        year: action.year,
+        month: action.monthName,
+      });
+    }
+  } catch (e) {
+    action.completeLoad(false);
+    e?.response?.status,
+      handleError(
+        ERROR_MESSAGES.SOMETHING_WRONG,
+        e?.response?.data,
+        e?.response?.status,
+      );
   }
 }
 
@@ -116,6 +170,7 @@ function* ExpenseSaga() {
     takeLatest(EXPENSE_TYPES.GET_MONTH_EXPENSE, getMonthExpense),
     takeLatest(EXPENSE_TYPES.ADD_NEW_MONTH, postNewMonthSaga),
     takeLatest(EXPENSE_TYPES.ADD_NEW_YEAR, postNewYearSaga),
+    takeLatest(EXPENSE_TYPES.ADD_NEW_EXPENSE, postNewExpenseSaga),
   ]);
 }
 

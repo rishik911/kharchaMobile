@@ -1,5 +1,5 @@
 import {useColorScheme, StyleSheet} from 'react-native';
-import {DARK_COLORS, LIGHT_COLORS} from './Colors';
+import {DARK_COLORS, LIGHT_COLORS, THEME} from './Colors';
 
 const getCommonStyles = () => {
   const LightMode = StyleSheet.create({
@@ -56,7 +56,7 @@ const getCommonStyles = () => {
       flexDirection: 'row',
     },
     listItemCard: {
-      backgroundColor: LIGHT_COLORS.listItemBg,
+      backgroundColor: THEME.BG,
     },
     listCardText: {
       color: LIGHT_COLORS.listItemTextColor,
@@ -119,7 +119,7 @@ const getCommonStyles = () => {
       borderBottomColor: LIGHT_COLORS.border,
     },
     listItemCard: {
-      backgroundColor: LIGHT_COLORS.listItemBg,
+      backgroundColor: THEME.BG,
     },
     listCardText: {
       color: LIGHT_COLORS.listItemTextColor,

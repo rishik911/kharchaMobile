@@ -8,4 +8,5 @@ export const EXPENSE_TYPES = {
   ADD_NEW_YEAR_SUCCESS: 'add_new_year_success',
   ADD_NEW_MONTH: 'add_new_month',
   ADD_NEW_MONTH_SUCCESS: 'add_new_month_success',
+  ADD_NEW_EXPENSE: 'add_new_expense',
 };

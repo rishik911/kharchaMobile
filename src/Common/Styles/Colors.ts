@@ -19,3 +19,7 @@ export const DARK_COLORS = {
   listItemTextColor: '#fff',
   errorButton: 'red',
 };
+
+export const THEME = {
+  BG: '#e3dddc',
+};

@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({
     <View style={[headerView, containerBackground]}>
       <TouchableOpacity onPress={handleOnpress}>
         {showBack ? (
-          <Icon name="chevron-left" />
+          <Icon name="chevron-left" size={22} {...textColor} />
         ) : (
           <Icon name="bars" size={25} {...textColor} />
         )}
@@ -43,7 +43,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   headerText: {
-    marginLeft: 4,
+    marginLeft: 8,
     marginBottom: 2,
   },
 });

@@ -21,3 +21,20 @@ export interface AddModalTypes {
   accessToken: string;
   yearId?: string;
 }
+
+export interface AddExpenseModalTypes {
+  isVisible: boolean;
+  handleVisibility: () => void;
+  accessToken: string;
+  yearId: string;
+  monthName: string;
+}
+
+export interface ExpenseListItemTypes {
+  spendBy: string;
+  type: string;
+  amount: string | number;
+  date: string;
+  index: any;
+  isHeader?: boolean;
+}

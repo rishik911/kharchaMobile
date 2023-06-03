@@ -52,7 +52,11 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
 
   useEffect(() => {
     setLoader(false);
-    showLoader && props.navigation.navigate(EXPENSE_SCREENS.MONTH_EXPENSE);
+    showLoader &&
+      props.navigation.navigate(EXPENSE_SCREENS.MONTH_EXPENSE, {
+        yearId: selectedYear,
+        accessToken: accessToken,
+      });
   }, [monthExpense]);
 
   const handleOnMonthPress = (month: string) => {

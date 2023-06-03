@@ -55,3 +55,20 @@ export const postNewMonthAction = (
     completeLoad,
   };
 };
+
+export const addNewExpenseAction = (
+  accessToken: string,
+  year: string,
+  monthName: string,
+  expense: object,
+  completeLoad: any,
+) => {
+  return {
+    type: EXPENSE_TYPES.ADD_NEW_EXPENSE,
+    accessToken,
+    year,
+    monthName,
+    expense,
+    completeLoad,
+  };
+};

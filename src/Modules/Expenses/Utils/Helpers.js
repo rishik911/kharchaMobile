@@ -17,3 +17,20 @@ export const getMonthsData = (expense, year) => {
     return response?.months || [];
   } else return [];
 };
+
+export const geneateMemberExpenses = expenseDetails => {
+  let arr = [];
+  expenseDetails.forEach(curr => {
+    const {spendBy, amount} = curr;
+    const isMemberAdded = arr?.findIndex(mem => mem?.name === spendBy);
+    if (isMemberAdded >= 0) {
+      arr[isMemberAdded].amount += amount;
+    } else {
+      let obj = {};
+      obj.name = spendBy;
+      obj.amount = amount;
+      arr.push(obj);
+    }
+  });
+  return arr;
+};
