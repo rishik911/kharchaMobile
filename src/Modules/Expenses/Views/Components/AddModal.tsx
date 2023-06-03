@@ -24,6 +24,7 @@ const AddModal: React.FC<AddModalTypes> = ({
   isVisible,
   handleVisibility,
   accessToken,
+  groupName,
   yearId,
 }) => {
   const {containerBackground, textColor} = getCommonStyles();
@@ -97,18 +98,29 @@ const AddModal: React.FC<AddModalTypes> = ({
     setLoader(true);
     if (selectedMode === 'new_year') {
       dispatch(
-        postNewYearAction(accessToken, year, value => {
-          value === true && handleVisibility();
-          setLoader(false);
-        }),
+        postNewYearAction(
+          accessToken,
+          year,
+          value => {
+            value === true && handleVisibility();
+            setLoader(false);
+          },
+          groupName,
+        ),
       );
     }
     if (selectedMode === 'new_month') {
       dispatch(
-        postNewMonthAction(accessToken, yearId, month, value => {
-          value === true && handleVisibility();
-          setLoader(false);
-        }),
+        postNewMonthAction(
+          accessToken,
+          yearId,
+          month,
+          value => {
+            value === true && handleVisibility();
+            setLoader(false);
+          },
+          groupName,
+        ),
       );
     }
   };

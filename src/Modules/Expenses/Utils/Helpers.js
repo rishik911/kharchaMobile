@@ -13,7 +13,7 @@ export const getYearsData = expense => {
 
 export const getMonthsData = (expense, year) => {
   if (expense?.length > 0 && year) {
-    const response = expense?.find(item => item?.id === year);
+    const response = expense?.find(item => item?.year === year);
     return response?.months || [];
   } else return [];
 };

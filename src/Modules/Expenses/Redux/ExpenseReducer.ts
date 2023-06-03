@@ -11,15 +11,15 @@ export default (state = INITIAL_STATE, action: any) => {
     case EXPENSE_TYPES.GET_EXPENSE_DATA_SUCCESS:
       return {
         ...state,
-        expenseData: action.payload,
+        expenseData: action.payload?.years,
       };
     case EXPENSE_TYPES.GET_MONTH_EXPENSE_SUCCESS:
+      console.log(action.payload);
       return {
         ...state,
         monthExpense: action.payload,
       };
     case EXPENSE_TYPES.CLEAR_MONTH_EXPENSE:
-      console.log('reducer');
       return {
         ...state,
         monthExpense: null,

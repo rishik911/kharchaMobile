@@ -1,9 +1,13 @@
 import {EXPENSE_TYPES} from './ExpenseTypes';
 
-export const getExpenseDataAction = (accessToken: string) => {
+export const getExpenseDataAction = (
+  accessToken: string,
+  groupName: string,
+) => {
   return {
     type: EXPENSE_TYPES.GET_EXPENSE_DATA,
     accessToken,
+    groupName,
   };
 };
 
@@ -12,13 +16,16 @@ export const getMonthlyExpenseAction = (
   year: string,
   month: string,
   completeLoad: any,
+  groupName: string,
 ) => {
+  console.log(groupName)
   return {
     type: EXPENSE_TYPES.GET_MONTH_EXPENSE,
     accessToken,
     year,
     month,
     completeLoad,
+    groupName,
   };
 };
 
@@ -32,12 +39,14 @@ export const postNewYearAction = (
   accessToken: string,
   year: string,
   completeLoad: any,
+  groupName: string,
 ) => {
   return {
     type: EXPENSE_TYPES.ADD_NEW_YEAR,
     accessToken,
     year,
     completeLoad,
+    groupName,
   };
 };
 
@@ -46,6 +55,7 @@ export const postNewMonthAction = (
   year: string,
   monthName: string,
   completeLoad: any,
+  groupName: string,
 ) => {
   return {
     type: EXPENSE_TYPES.ADD_NEW_MONTH,
@@ -53,6 +63,7 @@ export const postNewMonthAction = (
     year,
     monthName,
     completeLoad,
+    groupName,
   };
 };
 
@@ -62,6 +73,7 @@ export const addNewExpenseAction = (
   monthName: string,
   expense: object,
   completeLoad: any,
+  groupName: string,
 ) => {
   return {
     type: EXPENSE_TYPES.ADD_NEW_EXPENSE,
@@ -70,5 +82,6 @@ export const addNewExpenseAction = (
     monthName,
     expense,
     completeLoad,
+    groupName,
   };
 };

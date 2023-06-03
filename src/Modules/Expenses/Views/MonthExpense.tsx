@@ -16,6 +16,8 @@ import {RefreshControl} from 'react-native-gesture-handler';
 const MonthExpense: React.FC<MonthExpenseTypes> = (props, {}) => {
   const dispatch = useDispatch();
 
+  const {profileData} = useSelector(state => state.authState);
+
   const {monthExpense} = useSelector(state => state.expenseState);
 
   const [showAddModal, setAddModal] = useState(false);
@@ -84,7 +86,7 @@ const MonthExpense: React.FC<MonthExpenseTypes> = (props, {}) => {
     return arr;
   }, [monthExpense]);
 
-  console.log(monthExpense)
+  console.log(monthExpense);
 
   const renderListHeader = () => {
     return (
@@ -135,6 +137,7 @@ const MonthExpense: React.FC<MonthExpenseTypes> = (props, {}) => {
         isVisible={showAddModal}
         handleVisibility={handleModalVisibility}
         accessToken={accessToken}
+        groupName={profileData?.groupName}
       />
     </View>
   );

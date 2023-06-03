@@ -21,7 +21,7 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
 
   const {expenseData, monthExpense} = useSelector(state => state.expenseState);
 
-  const {accessToken} = useSelector(state => state.authState);
+  const {accessToken, profileData} = useSelector(state => state.authState);
 
   const [selectedYear, setSelectedYear] = useState(null);
 
@@ -31,14 +31,16 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
   const [showLoader, setLoader] = useState(false);
 
   useEffect(() => {
-    dispatch(getExpenseDataAction(accessToken));
+    dispatch(getExpenseDataAction(accessToken, profileData?.groupName));
   }, []);
 
   useEffect(() => {
     if (expenseData?.length > 0 && !selectedYear) {
-      setSelectedYear(expenseData?.[0]?.id);
+      setSelectedYear(expenseData?.[0]?.year);
     }
   }, [expenseData]);
+
+  console.log(profileData?.groupName);
 
   const yearsArray = useMemo(() => {
     const years = getYearsData(expenseData);
@@ -62,9 +64,15 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
   const handleOnMonthPress = (month: string) => {
     setLoader(true);
     dispatch(
-      getMonthlyExpenseAction(accessToken, selectedYear, month, () => {
-        setLoader(false);
-      }),
+      getMonthlyExpenseAction(
+        accessToken,
+        selectedYear,
+        month,
+        () => {
+          setLoader(false);
+        },
+        profileData?.groupName,
+      ),
     );
   };
 
@@ -105,6 +113,7 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
       )}
       <AddModal
         accessToken={accessToken}
+        groupName={profileData?.groupName}
         yearId={selectedYear}
         isVisible={showModal}
         handleVisibility={handelShowModal}

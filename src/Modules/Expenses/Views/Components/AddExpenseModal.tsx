@@ -17,6 +17,7 @@ const AddExpenseModal: React.FC<AddExpenseModalTypes> = ({
   accessToken,
   yearId,
   monthName,
+  groupName,
 }) => {
   const {containerBackground, textColor} = getCommonStyles();
   const [expenseType, setExpenseType] = useState('');
@@ -42,7 +43,7 @@ const AddExpenseModal: React.FC<AddExpenseModalTypes> = ({
     [amount, expenseType],
   );
 
-  console.log(profileData)
+  console.log(profileData);
 
   const submitForm = () => {
     const expense = {
@@ -54,9 +55,16 @@ const AddExpenseModal: React.FC<AddExpenseModalTypes> = ({
     if (yearId && monthName) {
       setLoader(true);
       dispatch(
-        addNewExpenseAction(accessToken, yearId, monthName, expense, state => {
-          setLoader(false), state && handleVisibility();
-        }),
+        addNewExpenseAction(
+          accessToken,
+          yearId,
+          monthName,
+          expense,
+          state => {
+            setLoader(false), state && handleVisibility();
+          },
+          groupName,
+        ),
       );
     }
   };

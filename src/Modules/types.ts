@@ -20,6 +20,7 @@ export interface AddModalTypes {
   handleVisibility: () => void;
   accessToken: string;
   yearId?: string;
+  groupName?: string;
 }
 
 export interface AddExpenseModalTypes {
@@ -28,6 +29,7 @@ export interface AddExpenseModalTypes {
   accessToken: string;
   yearId: string;
   monthName: string;
+  groupName?: string;
 }
 
 export interface ExpenseListItemTypes {

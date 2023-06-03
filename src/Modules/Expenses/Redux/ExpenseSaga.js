@@ -13,7 +13,11 @@ function* getExpensesData(action) {
   try {
     const headers = {...DEFAULT_HEADERS};
     headers.authorization = `Bearer ${action.accessToken}`;
-    const response = yield call(makeGetCall, ENDPOINTS.EXPENSES, headers);
+    const response = yield call(
+      makeGetCall,
+      `${ENDPOINTS.EXPENSES}/${action.groupName}`,
+      headers,
+    );
 
     if (response?.data?.status === 200) {
       const payload = response?.data?.body;
@@ -37,7 +41,7 @@ function* getMonthExpense(action) {
     headers.authorization = `Bearer ${action.accessToken}`;
     const response = yield call(
       makeGetCall,
-      `${ENDPOINTS.EXPENSES}/${action?.year}/${action?.month}`,
+      `${ENDPOINTS.EXPENSES}${action.groupName}/${action?.year}/${action?.month}`,
       headers,
     );
 
@@ -64,6 +68,7 @@ function* postNewYearSaga(action) {
     headers.authorization = `Bearer ${action.accessToken}`;
     const body = {
       year: action?.year,
+      groupName: action?.groupName,
     };
     const response = yield call(
       makePostCall,
@@ -99,6 +104,7 @@ function* postNewMonthSaga(action) {
       year: action?.year,
       monthName: action?.monthName,
       total: 0,
+      groupName: action?.groupName,
     };
     const response = yield call(
       makePostCall,
@@ -114,6 +120,7 @@ function* postNewMonthSaga(action) {
       yield put({
         type: EXPENSE_TYPES.GET_EXPENSE_DATA,
         accessToken: action.accessToken,
+        groupName: action.groupName,
       });
     }
   } catch (e) {
@@ -134,6 +141,7 @@ function* postNewExpenseSaga(action) {
       year: action?.year,
       month: action?.monthName,
       expense: action.expense,
+      groupName: action?.groupName,
     };
     const response = yield call(
       makePostCall,
@@ -151,6 +159,7 @@ function* postNewExpenseSaga(action) {
         accessToken: action.accessToken,
         year: action.year,
         month: action.monthName,
+        groupName: action.groupName,
       });
     }
   } catch (e) {
