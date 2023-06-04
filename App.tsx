@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import {store, persistor} from './src/Redux/store';
 import NavWrapper from './src/Navigation';
@@ -7,7 +7,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Toast, {ErrorToast} from 'react-native-toast-message';
 import {LIGHT_COLORS} from './src/Common/Styles/Colors';
 import 'react-native-gesture-handler';
-
+import SplashScreen from 'react-native-splash-screen';
 
 const toastConfig = {
   error: (props: any) => (
@@ -26,6 +26,9 @@ const toastConfig = {
 };
 
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>

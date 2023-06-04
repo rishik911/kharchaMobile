@@ -1,24 +1,68 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import {ProfileIndexTypes} from '../../types';
 import CommonButton from '../../../Common/Components/Button';
 import {useDispatch, useSelector} from 'react-redux';
-import {initiateLogoutAction} from '../../Auth/Redux/AuthActions';
+import {
+  initiateLogoutAction,
+  updateProfileAction,
+} from '../../Auth/Redux/AuthActions';
 import Header from '../../../Common/Components/Header';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {profileStyles} from './styles';
-import CommonTextInput from '../../../Common/Components/TextInput';
 import getCommonStyles from '../../../Common/Styles';
+import UpdateTextMpdal from '../../../Common/Components/UpdateTexModal';
 
 const ProfileIndex: React.FC<ProfileIndexTypes> = (props, {}) => {
   const dispatch = useDispatch();
-  const {profileData} = useSelector(state => state.authState);
+  const {profileData, accessToken} = useSelector(state => state.authState);
 
   const {textColor} = getCommonStyles();
+
+  const [showUpdateModal, setUpdateModal] = useState(false);
+
+  const [currentEditable, setEditable] = useState('');
+
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChangeValue = (id: string) => {
+    if (id === 'firstName') {
+      setEditable(id);
+      setUpdateModal(true);
+      setInputValue(profileData?.firstName);
+    }
+
+    if (id === 'lastName') {
+      setEditable(id);
+      setUpdateModal(true);
+      setInputValue(profileData?.lastName);
+    }
+  };
+
+  const handleTextChange = (e: any) => {
+    const {nativeEvent: text} = e || '';
+    setInputValue(text);
+  };
+
+  const updatProfie = () => {
+    const payload = {};
+    if (currentEditable === 'firstName') {
+      payload.firstName = inputValue.text;
+    }
+    console.log(payload);
+    dispatch(
+      updateProfileAction(accessToken, payload, () => {
+        setEditable('');
+        setInputValue('');
+        setUpdateModal(false);
+      }),
+    );
+  };
 
   const EditProfileData = (
     text: string,
     label: string,
+    id: string,
     showEdit: boolean = false,
   ) => {
     return (
@@ -32,7 +76,7 @@ const ProfileIndex: React.FC<ProfileIndexTypes> = (props, {}) => {
               {text}
             </Text>
             {showEdit && (
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => handleChangeValue(id)}>
                 <Icon name="edit" color="#000" size={18} />
               </TouchableOpacity>
             )}
@@ -41,6 +85,18 @@ const ProfileIndex: React.FC<ProfileIndexTypes> = (props, {}) => {
       </View>
     );
   };
+
+  const hideUdpateModal = () => setUpdateModal(false);
+  const getLabel = useMemo(() => {
+    switch (currentEditable) {
+      case 'firstName':
+        return 'Update your firstname...';
+      case 'lastName':
+        return 'Update your lastname...';
+      default:
+        return '';
+    }
+  }, [currentEditable]);
 
   return (
     <>
@@ -51,11 +107,19 @@ const ProfileIndex: React.FC<ProfileIndexTypes> = (props, {}) => {
         </View>
         <View style={profileStyles.textContainer}>
           {EditProfileData(
-            `${profileData?.firstName} ${profileData?.lastName}`,
-            'Your name',
+            `${profileData?.firstName}`,
+            'First name',
+            'firstName',
+            true,
           )}
 
-          {EditProfileData(profileData?.email, 'Your email')}
+          {EditProfileData(
+            `${profileData?.lastName}`,
+            'Last name',
+            'lastName',
+            true,
+          )}
+          {EditProfileData(profileData?.email, 'Your email', 'email')}
         </View>
         <View style={profileStyles.buttonholder}>
           <CommonButton
@@ -64,6 +128,16 @@ const ProfileIndex: React.FC<ProfileIndexTypes> = (props, {}) => {
             onButtonPress={() => dispatch(initiateLogoutAction())}
           />
         </View>
+        <UpdateTextMpdal
+          inputValue={inputValue}
+          handleInputChange={handleTextChange}
+          label={getLabel}
+          headerText="Update your profile here"
+          isVisible={showUpdateModal}
+          handleVisibility={hideUdpateModal}
+          enableClose
+          handleButtonPress={updatProfie}
+        />
       </ScrollView>
     </>
   );
