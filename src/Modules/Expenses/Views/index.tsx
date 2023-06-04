@@ -15,6 +15,8 @@ import Loader from '../../../Common/Components/Loader';
 import Header from '../../../Common/Components/Header';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AddModal from './Components/AddModal';
+import UpdateTextMpdal from '../../../Common/Components/UpdateTexModal';
+import {updateProfileAction} from '../../Auth/Redux/AuthActions';
 
 const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
   const dispatch = useDispatch();
@@ -27,11 +29,21 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
 
   const [showModal, setShowModal] = useState(false);
 
+  const [showUpdateGroup, setUpdateGroup] = useState(false);
+
+  const [groupName, setGroupName] = useState('');
+
   const {containerBackground} = getCommonStyles();
   const [showLoader, setLoader] = useState(false);
 
   useEffect(() => {
-    dispatch(getExpenseDataAction(accessToken, profileData?.groupName));
+    if (
+      profileData?.groupName !== 'null' &&
+      profileData?.groupName !== '' &&
+      profileData?.groupName
+    ) {
+      dispatch(getExpenseDataAction(accessToken, profileData?.groupName));
+    }
   }, []);
 
   useEffect(() => {
@@ -40,7 +52,37 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
     }
   }, [expenseData]);
 
-  console.log(profileData?.groupName);
+  useEffect(() => {
+    if (
+      !profileData?.groupName ||
+      profileData?.groupName === 'null' ||
+      (profileData?.groupName === '' && !showUpdateGroup)
+    ) {
+      setUpdateGroup(true);
+    }
+  }, [profileData]);
+
+  const handleGroupNameChange = e => {
+    const {nativeEvent: text} = e || '';
+    setGroupName(text);
+  };
+
+  const handleUpdateProfile = () => {
+    dispatch(
+      updateProfileAction(
+        accessToken,
+        {
+          groupName: groupName?.text,
+        },
+        () => {
+          setUpdateGroup(false);
+          dispatch(getExpenseDataAction(accessToken, groupName?.text));
+        },
+      ),
+    );
+  };
+
+  const hideModal = () => setUpdateGroup(false);
 
   const yearsArray = useMemo(() => {
     const years = getYearsData(expenseData);
@@ -117,6 +159,15 @@ const ExpensesIndex: React.FC<ExpensesIndexTypes> = (props, {}) => {
         yearId={selectedYear}
         isVisible={showModal}
         handleVisibility={handelShowModal}
+      />
+      <UpdateTextMpdal
+        inputValue={groupName}
+        label="Enter invite code ..."
+        headerText="Enter your invite code"
+        isVisible={showUpdateGroup}
+        handleInputChange={handleGroupNameChange}
+        handleVisibility={hideModal}
+        handleButtonPress={handleUpdateProfile}
       />
     </>
   );

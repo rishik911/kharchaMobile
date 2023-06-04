@@ -42,3 +42,16 @@ export const getProfileDataAction = (accessToken: string) => {
     accessToken,
   };
 };
+
+export const updateProfileAction = (
+  accessToken: string,
+  data: Object,
+  completeLoad: any,
+) => {
+  return {
+    type: AUTH_ACTION_TYPES.UPDATE_PROFILE,
+    accessToken,
+    data,
+    completeLoad,
+  };
+};

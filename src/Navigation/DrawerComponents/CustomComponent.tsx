@@ -9,6 +9,7 @@ import {THEME} from '../../Common/Styles/Colors';
 import {useDispatch, useSelector} from 'react-redux';
 import {getProfileDataAction} from '../../Modules/Auth/Redux/AuthActions';
 import getCommonStyles from '../../Common/Styles';
+import UpdateTextMpdal from '../../Common/Components/UpdateTexModal';
 
 function CustomDrawerContent(props) {
   const {accessToken, profileData} = useSelector(state => state.authState);
@@ -22,6 +23,7 @@ function CustomDrawerContent(props) {
       dispatch(getProfileDataAction(accessToken));
     }
   }, []);
+
   return (
     <DrawerContentScrollView {...props}>
       <View>

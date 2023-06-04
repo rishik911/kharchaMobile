@@ -22,3 +22,14 @@ export const makeGetCall = async (
   });
   return response;
 };
+
+export const makePutCall = async (
+  endpoint: string,
+  params: Object,
+  reqHeaders: any = DEFAULT_HEADERS,
+) => {
+  const response = await axios.put(`${BASE_URL}${endpoint}`, params, {
+    headers: reqHeaders,
+  });
+  return response;
+};

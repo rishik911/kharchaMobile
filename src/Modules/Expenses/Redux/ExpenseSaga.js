@@ -15,7 +15,7 @@ function* getExpensesData(action) {
     headers.authorization = `Bearer ${action.accessToken}`;
     const response = yield call(
       makeGetCall,
-      `${ENDPOINTS.EXPENSES}/${action.groupName}`,
+      `${ENDPOINTS.EXPENSES}${action.groupName}`,
       headers,
     );
 

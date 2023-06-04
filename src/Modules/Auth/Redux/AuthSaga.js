@@ -1,5 +1,9 @@
 import {all, call, put, take, takeLatest} from 'redux-saga/effects';
-import {makeGetCall, makePostCall} from '../../../Service/ApiService';
+import {
+  makeGetCall,
+  makePostCall,
+  makePutCall,
+} from '../../../Service/ApiService';
 import {DEFAULT_HEADERS, ENDPOINTS} from '../../../Utils/Constants';
 import reactotron from 'reactotron-react-native';
 import {AUTH_ACTION_TYPES} from './ActionTypes';
@@ -76,11 +80,37 @@ function* getProfileDataSaga(action) {
   }
 }
 
+function* updateProfileSaga(action) {
+  try {
+    const headers = {...DEFAULT_HEADERS};
+    headers.authorization = `Bearer ${action.accessToken}`;
+    const response = yield call(
+      makePutCall,
+      ENDPOINTS.PROFILE,
+      action.data,
+      headers,
+    );
+
+    if (response?.data?.status === 200) {
+      const payload = response?.data?.body;
+      yield put({
+        type: AUTH_ACTION_TYPES.GET_PROFILE_DATA,
+        accessToken: action.accessToken,
+      });
+      action.completeLoad(true);
+    }
+  } catch (e) {
+    action.completeLoad(false);
+    handleError(ERROR_MESSAGES.SOMETHING_WRONG, e?.response?.data);
+  }
+}
+
 function* AuthSaga() {
   yield all([
     takeLatest(AUTH_ACTION_TYPES.INTIATE_SIGNUP, initiateSignupSaga),
     takeLatest(AUTH_ACTION_TYPES.INITATE_LOGIN, initiateLoginSaga),
     takeLatest(AUTH_ACTION_TYPES.GET_PROFILE_DATA, getProfileDataSaga),
+    takeLatest(AUTH_ACTION_TYPES.UPDATE_PROFILE, updateProfileSaga),
   ]);
 }
 
